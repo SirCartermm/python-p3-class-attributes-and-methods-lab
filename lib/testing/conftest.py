@@ -1,9 +1,17 @@
-#!/usr/bin/env python3
+import pytest
+from song import Song
 
-def pytest_itemcollected(item):
-    par = item.parent.obj
-    node = item.obj
-    pref = par.__doc__.strip() if par.__doc__ else par.__class__.__name__
-    suf = node.__doc__.strip() if node.__doc__ else node.__name__
-    if pref or suf:
-        item._nodeid = ' '.join((pref, suf))
+@pytest.fixture
+def song_obj():
+    return Song("Test Song", "Test Artist", "Test Genre")
+
+@pytest.fixture
+def multiple_songs():
+    songs = []
+    for i in range(5):
+        songs.append(Song(f"Song {i}", f"Artist {i}", f"Genre {i % 2}"))
+    return songs
+
+@pytest.fixture
+def song_class():
+    return Song
